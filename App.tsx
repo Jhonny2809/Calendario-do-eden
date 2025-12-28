@@ -13,14 +13,16 @@ import {
   Info
 } from 'lucide-react';
 
-// Fix: Using 'declare global' instead of 'declare module' to avoid module resolution errors
-// when extending JSX IntrinsicElements for custom web components in this environment.
+// Fix: Added an index signature [elemName: string]: any; to JSX.IntrinsicElements 
+// to ensure standard HTML tags (div, p, span, etc.) are correctly recognized 
+// alongside the custom web components in this specific TypeScript environment.
 declare global {
   namespace JSX {
     interface IntrinsicElements {
       'cakto-upsell-buttons': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
       'cakto-upsell-accept': any;
       'cakto-upsell-reject': any;
+      [elemName: string]: any;
     }
   }
 }
