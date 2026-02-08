@@ -147,8 +147,15 @@ const Benefits: React.FC = () => {
 
 const PricingSection: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState(600); // 10 minutes
+  const [redirectUrl, setRedirectUrl] = useState("members_area");
 
   useEffect(() => {
+    // Force URL parameters to be passed to the next page
+    const params = window.location.search;
+    if (params) {
+      setRedirectUrl(`members_area${params}`);
+    }
+
     if (timeLeft <= 0) return;
     const timer = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
     return () => clearInterval(timer);
@@ -170,7 +177,7 @@ const PricingSection: React.FC = () => {
 
         <div className="space-y-4">
           <p className="text-lg opacity-90">De <span className="line-through decoration-red-500 decoration-2">R$ 147,00</span></p>
-          <div className="text-6xl font-black">R$ 67,90</div>
+          <div className="text-6xl font-black">R$ 19,90</div>
           <p className="text-sm uppercase tracking-widest text-emerald-300">Pagamento Único • Sem Mensalidades</p>
         </div>
 
@@ -180,11 +187,11 @@ const PricingSection: React.FC = () => {
             <cakto-upsell-accept
               bg-color="#10b981"
               text-color="#ffffff"
-              upsell-accept-url="members_area"
+              upsell-accept-url={redirectUrl}
               offer-id="bhth959"
               app-base-url="https://app.cakto.com.br"
               offer-type="upsell"
-              upsell-reject-url="members_area"   
+              upsell-reject-url={redirectUrl}   
             >
               SIM! ADICIONAR O CALENDÁRIO AO MEU PEDIDO
             </cakto-upsell-accept>
@@ -194,7 +201,7 @@ const PricingSection: React.FC = () => {
             </p>
 
             <cakto-upsell-reject
-              upsell-reject-url="members_area"       
+              upsell-reject-url={redirectUrl}       
             >
               Não, obrigado. Eu prefiro continuar me alimentando como sempre fiz e recuso essa oferta de desconto exclusivo.
             </cakto-upsell-reject>
